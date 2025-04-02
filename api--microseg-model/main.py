@@ -20,7 +20,10 @@ masks, flows, styles, diams = model.eval(image_resized, diameter=30, channels=[0
 
 
 print(np.sum(masks.tolist()))
-print(masks.tolist())
+print(diams)
+print(styles)
+print(flows)
+# print(masks.tolist())
 
 
 overlay = image_resized.copy()
@@ -37,4 +40,4 @@ final_image = cv2.addWeighted(overlay, alpha, image_resized, 1 - alpha, 0)
 
 # Caminho da imagem de saída
 output_path = "microscopic_segmented.png"
-cv2.imwrite(output_path, final_image)
+# cv2.imwrite(output_path, final_image)

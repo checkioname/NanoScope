@@ -1,44 +1,46 @@
 package main
 
 import (
-	"io"
-	"log/slog"
+	"errors"
+	"fmt"
+	"log"
 	"net/http"
+	"os"
+	"os/signal"
 
-	"github.com/go-chi/chi/v5"
+	"github.com/checkioname/api--microseg-service/internal/handlers"
 )
 
 
 
 
-type imageHandler struct {
-  R *chi.Mux
-}
-
-func (i *imageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-  i.R.ServeHTTP(w, r)
-}
-
-func (i *imageHandler) GetImageData(buf io.Reader) []byte{
-  modelurl := "localhost:8003"
-  resp, err := http.Post(modelurl, "image/png", buf)
-  
-  if err != nil {
-    slog.Error("could not reach the api")
-  }
-
-  defer resp.Body.Close()
-  body, _ := io.ReadAll(resp.Body)
-
-  return body
-}
 
 
 func main() {
-  
+  h := handlers.ImageHandler{}
+
+  handler := handlers.NewHandler(&h)
+  fmt.Println(handler)
+
+  go func() {
+    if err := http.ListenAndServe(":3000", handler); err != nil {
+      if !errors.Is(err, http.ErrServerClosed) {
+        log.Fatal("Couldn't keep up the server alive", err)
+        panic(err)
+      }
+    }
+  }()
+
+  fmt.Println("LIstening on port 3000...")
+  quit := make(chan os.Signal, 1)
+  signal.Notify(quit, os.Interrupt)
+  <-quit
+
   // Pegar dados da imagem
+  // mask := handler.GetImageMask()
 
   //aplicar regra de negocio
+  
 
   //devolver para o usuario
 }
