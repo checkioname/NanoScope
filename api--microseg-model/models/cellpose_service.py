@@ -6,9 +6,7 @@ class CellposeProcessor:
     def __init__(self, model_type="cyto"):
         self.model = models.Cellpose(model_type=model_type)
 
-    def process_image(self, filepath):
-        image = cv2.imread(filepath)
-
+    def process_image(self, image):
         # Normalização
         image = (image - image.min()) / (image.max() - image.min()) * 255
         image = image.astype(np.uint8)
