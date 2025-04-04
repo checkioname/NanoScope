@@ -12,18 +12,34 @@ class CellposeService(cellpose_pb2_grpc.CellposeServiceServicer):
 
         # Convertendo os bytes da imagem para um array numpy
         nparr = np.frombuffer(request.image_data, np.uint8)
+        print(nparr)
+        print("NUMPY ARRAY DA IMAGEM RECEBIDA")
         image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         # Processar a imagem com Cellpose
         processor = CellposeProcessor()
         masks, flows, styles, diams = processor.process_image(image)
+        
 
+        print("flows:", type(flows), len(flows))
+        for i, f in enumerate(flows):
+            print(f"[{i}] shape:", np.shape(f))
+
+        flattened_mask = masks.flatten().tolist() if masks is not None else [0]
+        flattened_diams = [0] # [float(d) for d in diams] if isinstance(diams, (list, np.ndarray)) else [float(diams)] if diams is not None else [0],
+        flattened_styles = [0] # [float(s) for s in styles.flatten()] if styles is not None else [0],
+        flattened_flows = [0] # [float(f) for f in np.array(flows).flatten()] if flows is not None else [0]
+        print(flattened_mask)
+        print(flattened_diams)
+        print(flattened_styles)
+        print(flattened_flows)
         # Criar a resposta
         response = cellpose_pb2.ImageResponse(
-            masks=masks.flatten().tolist(),
-            diams=[float(d) for d in diams] if isinstance(diams, (list, np.ndarray)) else [float(diams)],
-            styles=[float(s) for s in styles.flatten()],
-            flows=[float(f) for f in np.array(flows).flatten()]
+            masks=flattened_mask,
+
+            diams=flattened_diams,
+            styles=flattened_styles,
+            flows=flattened_flows
         )
 
         return response
