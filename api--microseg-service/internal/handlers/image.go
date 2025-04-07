@@ -2,13 +2,14 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
+	"image/jpeg"
 	"io"
 	"log/slog"
 	"net/http"
 
 	pb "github.com/checkioname/api--microseg-service/internal/protos"
+	"github.com/checkioname/api--microseg-service/internal/service"
 	"github.com/go-chi/chi/v5"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -63,20 +64,16 @@ func (i *ImageHandler) UploadImage(w http.ResponseWriter, r *http.Request){
 	img, _ := files[0].Open()
 	
 	imageBytes, _ := io.ReadAll(img)
-	fmt.Println(imageBytes)
-	
-
 	masks, _ := i.GetImageData(imageBytes)
 
-	fmt.Println(masks)
-
 	// Exibir resultado no console
-	fmt.Println("Máscaras recebidas:", masks)
-
-	// Enviar resposta JSON para o cliente
-	w.Header().Set("Content-Type", "application/json")
+	imageSegmented, err := service.RenderImageWithMask(w, imageBytes, masks)
+	
+	if err != nil {
+		http.Error(w, "Erro ao renderizar imagem com máscara", http.StatusInternalServerError)
+	}
+	// Enviar como resposta
+	w.Header().Set("Content-Type", "image/jpeg")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"masks": masks,
-	})
+	jpeg.Encode(w, imageSegmented, nil)
 }

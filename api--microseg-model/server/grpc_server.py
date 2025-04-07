@@ -36,10 +36,9 @@ class CellposeService(cellpose_pb2_grpc.CellposeServiceServicer):
         # Criar a resposta
         response = cellpose_pb2.ImageResponse(
             masks=flattened_mask,
-
             diams=flattened_diams,
             styles=flattened_styles,
-            flows=flattened_flows
+            rows=flattened_flows
         )
 
         return response
