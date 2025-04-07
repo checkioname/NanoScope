@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package cellpose;
+
+service CellposeService {
+  rpc ProcessImage (ImageRequest) returns (ImageResponse);
+}
+
+message ImageRequest {
+  bytes image_data = 1;
+}
+
+message ImageResponse {
+  repeated int32 masks = 1;
+  repeated float diams = 2;
+  repeated float styles = 3; 
+  repeated float rows = 4;
+} 
+
+

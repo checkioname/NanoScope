@@ -20,7 +20,7 @@ func main() {
   h := handlers.ImageHandler{}
 
   handler := handlers.NewHandler(&h)
-  fmt.Println(handler)
+  // fmt.Println(handler)
 
   go func() {
     if err := http.ListenAndServe(":3000", handler); err != nil {
@@ -31,7 +31,7 @@ func main() {
     }
   }()
 
-  fmt.Println("LIstening on port 3000...")
+  fmt.Println("Listening on port 3000...")
   quit := make(chan os.Signal, 1)
   signal.Notify(quit, os.Interrupt)
   <-quit
@@ -40,7 +40,6 @@ func main() {
   // mask := handler.GetImageMask()
 
   //aplicar regra de negocio
-  
 
   //devolver para o usuario
 }
