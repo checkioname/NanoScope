@@ -20,7 +20,7 @@ func main() {
   h := handlers.ImageHandler{}
 
   handler := handlers.NewHandler(&h)
-  fmt.Println(handler)
+  // fmt.Println(handler)
 
   go func() {
     if err := http.ListenAndServe(":3000", handler); err != nil {
