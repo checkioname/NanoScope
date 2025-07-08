@@ -4,8 +4,8 @@ import { Plus } from 'lucide-react';
 
 export default function UploadPage() {
     return (
-    <div className="bg-gray-900 min-h-screen text-gray-300 flex flex-col items-center justify-around">
-        <div className="w-5/6">
+    <div className="bg-[#13223C] min-h-screen text-gray-300 flex items-end">      
+        <div className="w-5/6 fixed top-10 right-50 left-50">
             <Navbar />
         </div>
       <main className="flex flex-col items-start p-8 max-w-5xl mx-auto w-full">

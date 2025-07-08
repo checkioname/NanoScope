@@ -3,11 +3,13 @@ import Navbar from '../components/navbar/navbar';
 
 export default function ResultsPage() {
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-300 flex flex-col">
-      <Navbar/>
-
-      <main className="flex flex-col max-w-7xl mx-auto p-8 flex-1">
-        <button className="flex items-center text-gray-400 mb-6 hover:text-indigo-600 transition space-x-2">
+    <div className="bg-[#0A1220] min-h-screen text-gray-300 flex items-end">
+        <div className="w-5/6 fixed top-10 right-50 left-50">
+            <Navbar />
+        </div>
+      <main className="flex flex-col max-w-7xl mx-auto p-8 bg-white/10 rounded-4xl mb-2">
+        <button className="flex items-center text-gray-400 mb-6 hover:text-indigo-600 transition space-x-2"
+        >
           <ArrowLeft size={20} />
           <span className="font-semibold text-xl">Diagnosis</span>
         </button>
