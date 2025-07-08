@@ -29,7 +29,7 @@ export default function About() {
       </div>
       <div className="flex min-h-100 w-3/4 items-center justify-around">
         <div className="flex flex-col items-center w-60">
-          <h1 className="bg-gray-200 p-2 px-10 rounded-full text-center w-60">
+          <h1 className="w-full bg-gray-200 p-2 px-10 rounded-full text-center w-60">
             Feature Engineering
           </h1>
           <p>
@@ -37,8 +37,8 @@ export default function About() {
           </p>
         </div>
         <div className="flex flex-col items-center w-60">
-          <h1 className="bg-gray-200 p-2 px-1 rounded-full text-center w-60">
-            Feature Engineering
+          <h1 className="w-full bg-gray-200 p-2 px-1 rounded-full text-center w-60">
+            Self Supervised Learning
           </h1>
           <p className="">
             A tecnologia que aprende com dados reais, crescente e precisa.

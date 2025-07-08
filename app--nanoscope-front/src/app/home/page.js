@@ -1,6 +1,7 @@
 import { Lato } from "next/font/google";
 import Image from "next/image";
 import About from "../components/about/about";
+import Demo from "../demo/demo";
 
 const latoFont = Lato({
   subsets: ["latin"],
@@ -54,6 +55,7 @@ export default function Home() {
         </div>
       </div>
       <About/>
+      <Demo/>
     </>
   );
 }
