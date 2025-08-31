@@ -23,6 +23,15 @@ class CellposeProcessor:
             # Avaliação com Cellpose
             masks, flows, styles, diams = self.model.eval(image_resized, diameter=30, channels=[0, 0])
 
+            # --- NOVO: Calcular o número de células segmentadas ---
+            num_cells = 0
+            if masks is not None:
+                # Cellpose atribui um ID único (inteiro > 0) para cada célula.
+                # Contar o número de IDs únicos (ignorando o 0, que é o background).
+                num_cells = len(np.unique(masks[masks > 0]))
+            print("Numero de celulas detectadas: ", num_cells)
+            # -----------------------------------------------------
+
             return masks, flows, styles, diams
 
         except Exception as e:

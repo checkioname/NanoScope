@@ -9,8 +9,6 @@ import (
 	"net/http"
 )
 
-
-
 func RenderImageWithMask(w http.ResponseWriter, original []byte, masks []int32) (*image.RGBA, error) {
 	img, _, err := image.Decode(bytes.NewReader(original))
 	if err != nil {

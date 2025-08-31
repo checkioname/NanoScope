@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Josefin_Sans } from "next/font/google";
 
@@ -14,8 +13,9 @@ export default function UploadSVG({
   onClick,
   isDragging,
   setIsDragging,
-  shrink = false, // nova prop para controlar escala
+  shrink = false, 
 }) {
+
   function handleDrop(event) {
     event.preventDefault();
     setIsDragging(false);
@@ -45,7 +45,7 @@ export default function UploadSVG({
       <svg
         width="100%"
         height="100%"
-        viewBox="0 0 260 90"
+        viewBox="0 0 260 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
@@ -60,7 +60,7 @@ export default function UploadSVG({
           x="9"
           y="5"
           width="240"
-          height="80"
+          height="90"
           rx="4"
           fill="#215651"
           fillOpacity={isDragging ? 0.7 : 0.5}
