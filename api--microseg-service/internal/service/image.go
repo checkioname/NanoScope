@@ -7,6 +7,10 @@ import (
 	"image/color"
 	"image/draw"
 	"net/http"
+
+	_ "image/gif"  // Para imagens GIF
+	_ "image/jpeg" // Para imagens JPEG
+	_ "image/png"  // Para imagens PNG
 )
 
 func RenderImageWithMask(w http.ResponseWriter, original []byte, masks []int32) (*image.RGBA, error) {
@@ -41,5 +45,3 @@ func RenderImageWithMask(w http.ResponseWriter, original []byte, masks []int32) 
 
 	return final, err
 }
-
-

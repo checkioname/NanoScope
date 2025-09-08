@@ -11,7 +11,7 @@ class CellposeProcessor:
             if image is None:
                 raise ValueError("Falha ao decodificar imagem. Verifique o formato dos bytes enviados.")
 
-            print(f"Imagem decodificada com shape: {image.shape}")
+            original_height, original_width = image.shape[:2]
 
             # Normalização
             image = (image - image.min()) / (image.max() - image.min()) * 255
@@ -23,6 +23,10 @@ class CellposeProcessor:
             # Avaliação com Cellpose
             masks, flows, styles, diams = self.model.eval(image_resized, diameter=30, channels=[0, 0])
 
+            if masks is not None:
+                masks = cv2.resize(masks, (original_width, original_height), interpolation=cv2.INTER_NEAREST)
+        
+
             # --- NOVO: Calcular o número de células segmentadas ---
             num_cells = 0
             if masks is not None:
@@ -30,7 +34,7 @@ class CellposeProcessor:
                 # Contar o número de IDs únicos (ignorando o 0, que é o background).
                 num_cells = len(np.unique(masks[masks > 0]))
             print("Numero de celulas detectadas: ", num_cells)
-            # -----------------------------------------------------
+
 
             return masks, flows, styles, diams
 

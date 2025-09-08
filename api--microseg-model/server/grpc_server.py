@@ -1,9 +1,11 @@
 import grpc
-from concurrent import futures
-import numpy as np
 import cv2
+import numpy as np
+from concurrent import futures
+
 import protos.cellpose_pb2 as cellpose_pb2
 import protos.cellpose_pb2_grpc as cellpose_pb2_grpc
+
 from models.cellpose_service import CellposeProcessor
 
 class CellposeService(cellpose_pb2_grpc.CellposeServiceServicer):

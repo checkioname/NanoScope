@@ -80,6 +80,7 @@ async function processFile(file) {
     });
 
     if (!response.ok) {
+      console.log(response)
       throw new Error("Erro ao processar imagem");
     }
     const blob = await response.blob();
