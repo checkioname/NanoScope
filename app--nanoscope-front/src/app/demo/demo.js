@@ -52,7 +52,7 @@ export default function Demo() {
                 animate={{ opacity: 1, scaleX: file ? 0.5 : 1 }} // estado quando animado (visível e tamanho normal)
                 exit={{ opacity: 0, scale: 0.9 }} // animação de saída (sumir)
                 transition={{ duration: 0.8 }} // tempo e easing da animação
-                className="w-1/2 h-5/6 object-fill rounded-lg"
+                className="w-1/2 h-5/6 object-fill rounded-lg max-w-1/2"
               />
             )}
           </AnimatePresence>
