@@ -19,7 +19,7 @@ function ImageWithMask({ src }) {
       <img
         src={src}
         alt="Imagem processada com máscara"
-        className="object-cover rounded-3xl"
+        className="object-cover rounded-3xl max-w-1/2"
         draggable={false}
       />
 

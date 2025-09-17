@@ -1,4 +1,4 @@
-from cellpose import models
+from cellpose import models, utils
 import numpy as np
 import cv2
 
@@ -6,12 +6,10 @@ class CellposeProcessor:
     def __init__(self, model_type="cyto"):
         self.model = models.Cellpose(model_type=model_type)
 
-    def process_image(self, image):
+    def process_image(self, image, original_width, original_height):
         try:
             if image is None:
                 raise ValueError("Falha ao decodificar imagem. Verifique o formato dos bytes enviados.")
-
-            original_height, original_width = image.shape[:2]
 
             # Normalização
             image = (image - image.min()) / (image.max() - image.min()) * 255
@@ -33,10 +31,11 @@ class CellposeProcessor:
                 # Cellpose atribui um ID único (inteiro > 0) para cada célula.
                 # Contar o número de IDs únicos (ignorando o 0, que é o background).
                 num_cells = len(np.unique(masks[masks > 0]))
+            
             print("Numero de celulas detectadas: ", num_cells)
+            outlines = utils.outlines_list(masks)
 
-
-            return masks, flows, styles, diams
+            return masks, outlines, flows, styles, diams
 
         except Exception as e:
             print(f"Erro ao processar imagem: {e}")

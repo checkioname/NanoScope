@@ -10,11 +10,19 @@ message ImageRequest {
   bytes image_data = 1;
 }
 
+message Point {
+  int32 y = 1;
+  int32 x = 2;
+}
+
+message Outline {
+  repeated Point points = 1;
+}
+
 message ImageResponse {
-  repeated int32 masks = 1;
-  repeated float diams = 2;
-  repeated float styles = 3; 
-  repeated float rows = 4;
+  repeated Outline outlines = 1;
+  repeated int32 masks = 2;
+  repeated float diams = 3;
+  repeated float styles = 4; 
+  repeated float rows = 5;
 } 
-
-

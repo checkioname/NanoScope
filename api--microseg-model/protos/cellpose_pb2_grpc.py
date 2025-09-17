@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import cellpose_pb2 as cellpose__pb2
+from protos import cellpose_pb2 as protos_dot_cellpose__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in cellpose_pb2_grpc.py depends on'
+        + f' but the generated code in protos/cellpose_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,8 +36,8 @@ class CellposeServiceStub(object):
         """
         self.ProcessImage = channel.unary_unary(
                 '/cellpose.CellposeService/ProcessImage',
-                request_serializer=cellpose__pb2.ImageRequest.SerializeToString,
-                response_deserializer=cellpose__pb2.ImageResponse.FromString,
+                request_serializer=protos_dot_cellpose__pb2.ImageRequest.SerializeToString,
+                response_deserializer=protos_dot_cellpose__pb2.ImageResponse.FromString,
                 _registered_method=True)
 
 
@@ -55,8 +55,8 @@ def add_CellposeServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'ProcessImage': grpc.unary_unary_rpc_method_handler(
                     servicer.ProcessImage,
-                    request_deserializer=cellpose__pb2.ImageRequest.FromString,
-                    response_serializer=cellpose__pb2.ImageResponse.SerializeToString,
+                    request_deserializer=protos_dot_cellpose__pb2.ImageRequest.FromString,
+                    response_serializer=protos_dot_cellpose__pb2.ImageResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -84,8 +84,8 @@ class CellposeService(object):
             request,
             target,
             '/cellpose.CellposeService/ProcessImage',
-            cellpose__pb2.ImageRequest.SerializeToString,
-            cellpose__pb2.ImageResponse.FromString,
+            protos_dot_cellpose__pb2.ImageRequest.SerializeToString,
+            protos_dot_cellpose__pb2.ImageResponse.FromString,
             options,
             channel_credentials,
             insecure,

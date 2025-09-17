@@ -23,13 +23,13 @@ func (i *ImageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	i.R.ServeHTTP(w, r)
 }
 
-func (i *ImageHandler) GetImageData(imageData []byte) ([]int32, error) {
+func (i *ImageHandler) GetImageData(imageData []byte) ([]int32, []*pb.Outline, error) {
 	grpcServerAddr := "localhost:50051"
 
 	conn, err := grpc.NewClient(grpcServerAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		slog.Warn("Erro ao conectar ao servidor gRPC:", err)
-		return nil, err
+		return nil, nil, err
 	}
 	defer conn.Close()
 
@@ -43,10 +43,10 @@ func (i *ImageHandler) GetImageData(imageData []byte) ([]int32, error) {
 	resp, err := client.ProcessImage(context.Background(), req)
 	if err != nil {
 		slog.Warn("Erro no processamento gRPC:", err)
-		return nil, err
+		return nil, nil, err
 	}
 
-	return resp.Masks, nil
+	return resp.Masks, resp.Outlines, nil
 }
 
 func (i *ImageHandler) ProcessImageData() {
@@ -61,10 +61,7 @@ func (i *ImageHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	files := r.MultipartForm.File["file"]
-	fmt.Println(files)
-
 	img, _ := files[0].Open()
-	fmt.Println("Imagem abrida:", img)
 
 	imageBytes, err := io.ReadAll(img)
 	if err != nil {
@@ -73,7 +70,7 @@ func (i *ImageHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	masks, err := i.GetImageData(imageBytes)
+	masks, _, err := i.GetImageData(imageBytes)
 	if err != nil {
 		fmt.Println("Upload Image:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -82,6 +79,7 @@ func (i *ImageHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 
 	// Exibir resultado no console
 	imageSegmented, err := service.RenderImageWithMask(w, imageBytes, masks)
+	// imageSegmented, err := service.RenderImageWithOutlines(w, imageBytes, outlines)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Erro ao renderizar imagem com máscara", http.StatusInternalServerError)
