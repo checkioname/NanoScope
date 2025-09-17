@@ -131,37 +131,61 @@ class CellposeProcessor:
     
     def calculate_global_metrics(self, image, masks, cell_features):
         """Calcula métricas globais da imagem"""
-        if masks is None or len(cell_features) == 0:
-            return {}
+        try:
+            if masks is None or len(cell_features) == 0:
+                return {
+                    'total_cells': 0,
+                    'potentially_malignant_cells': 0,
+                    'malignancy_percentage': 0.0,
+                    'cell_density_per_mm2': 0.0,
+                    'mean_cell_size': 0.0,
+                    'cell_size_variability': 0.0,
+                    'mean_cell_intensity': 0.0,
+                    'intensity_variability': 0.0,
+                    'image_quality_score': 0.0
+                }
+                
+            total_cells = len(cell_features)
+            potentially_malignant = sum(1 for f in cell_features if f['is_potentially_malignant'])
             
-        total_cells = len(cell_features)
-        potentially_malignant = sum(1 for f in cell_features if f['is_potentially_malignant'])
-        
-        # Densidade celular
-        image_area = image.shape[0] * image.shape[1]
-        cell_density = total_cells / image_area * 1000000  # células por mm² (assumindo escala)
-        
-        # Estatísticas de tamanho
-        areas = [f['area'] for f in cell_features]
-        mean_cell_size = np.mean(areas)
-        size_variability = np.std(areas) / mean_cell_size if mean_cell_size > 0 else 0
-        
-        # Distribuição de intensidades
-        intensities = [f['mean_intensity'] for f in cell_features]
-        mean_intensity = np.mean(intensities)
-        intensity_variability = np.std(intensities)
-        
-        return {
-            'total_cells': total_cells,
-            'potentially_malignant_cells': potentially_malignant,
-            'malignancy_percentage': (potentially_malignant / total_cells * 100) if total_cells > 0 else 0,
-            'cell_density_per_mm2': float(cell_density),
-            'mean_cell_size': float(mean_cell_size),
-            'cell_size_variability': float(size_variability),
-            'mean_cell_intensity': float(mean_intensity),
-            'intensity_variability': float(intensity_variability),
-            'image_quality_score': self.assess_image_quality(image)
-        }
+            # Densidade celular
+            image_area = image.shape[0] * image.shape[1]
+            cell_density = total_cells / image_area * 1000000  # células por mm² (assumindo escala)
+            
+            # Estatísticas de tamanho
+            areas = [f['area'] for f in cell_features]
+            mean_cell_size = np.mean(areas) if areas else 0.0
+            size_variability = (np.std(areas) / mean_cell_size) if mean_cell_size > 0 else 0.0
+            
+            # Distribuição de intensidades
+            intensities = [f['mean_intensity'] for f in cell_features]
+            mean_intensity = np.mean(intensities) if intensities else 0.0
+            intensity_variability = np.std(intensities) if intensities else 0.0
+            
+            return {
+                'total_cells': total_cells,
+                'potentially_malignant_cells': potentially_malignant,
+                'malignancy_percentage': (potentially_malignant / total_cells * 100) if total_cells > 0 else 0.0,
+                'cell_density_per_mm2': float(cell_density),
+                'mean_cell_size': float(mean_cell_size),
+                'cell_size_variability': float(size_variability),
+                'mean_cell_intensity': float(mean_intensity),
+                'intensity_variability': float(intensity_variability),
+                'image_quality_score': self.assess_image_quality(image)
+            }
+        except Exception as e:
+            print(f"Erro ao calcular métricas globais: {e}")
+            return {
+                'total_cells': 0,
+                'potentially_malignant_cells': 0,
+                'malignancy_percentage': 0.0,
+                'cell_density_per_mm2': 0.0,
+                'mean_cell_size': 0.0,
+                'cell_size_variability': 0.0,
+                'mean_cell_intensity': 0.0,
+                'intensity_variability': 0.0,
+                'image_quality_score': 0.0
+            }
     
     def assess_image_quality(self, image):
         """Avalia a qualidade da imagem para análise"""
