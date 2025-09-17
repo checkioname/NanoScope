@@ -5,3 +5,4 @@ opencv-python==4.11.0.86
 pip==23.2.1
 protobuf==5.29.4
 setuptools==78.1.0
+scikit-image==0.25.2

@@ -161,6 +161,254 @@ func (x *Outline) GetPoints() []*Point {
 	return nil
 }
 
+type CellFeature struct {
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	CellId                 int32                  `protobuf:"varint,1,opt,name=cell_id,json=cellId,proto3" json:"cell_id,omitempty"`
+	Area                   float32                `protobuf:"fixed32,2,opt,name=area,proto3" json:"area,omitempty"`
+	Perimeter              float32                `protobuf:"fixed32,3,opt,name=perimeter,proto3" json:"perimeter,omitempty"`
+	Circularity            float32                `protobuf:"fixed32,4,opt,name=circularity,proto3" json:"circularity,omitempty"`
+	Eccentricity           float32                `protobuf:"fixed32,5,opt,name=eccentricity,proto3" json:"eccentricity,omitempty"`
+	Solidity               float32                `protobuf:"fixed32,6,opt,name=solidity,proto3" json:"solidity,omitempty"`
+	MeanIntensity          float32                `protobuf:"fixed32,7,opt,name=mean_intensity,json=meanIntensity,proto3" json:"mean_intensity,omitempty"`
+	MaxIntensity           float32                `protobuf:"fixed32,8,opt,name=max_intensity,json=maxIntensity,proto3" json:"max_intensity,omitempty"`
+	MinIntensity           float32                `protobuf:"fixed32,9,opt,name=min_intensity,json=minIntensity,proto3" json:"min_intensity,omitempty"`
+	IntensityStd           float32                `protobuf:"fixed32,10,opt,name=intensity_std,json=intensityStd,proto3" json:"intensity_std,omitempty"`
+	TextureContrast        float32                `protobuf:"fixed32,11,opt,name=texture_contrast,json=textureContrast,proto3" json:"texture_contrast,omitempty"`
+	NucleusCytoplasmRatio  float32                `protobuf:"fixed32,12,opt,name=nucleus_cytoplasm_ratio,json=nucleusCytoplasmRatio,proto3" json:"nucleus_cytoplasm_ratio,omitempty"`
+	IsPotentiallyMalignant bool                   `protobuf:"varint,13,opt,name=is_potentially_malignant,json=isPotentiallyMalignant,proto3" json:"is_potentially_malignant,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *CellFeature) Reset() {
+	*x = CellFeature{}
+	mi := &file_internal_protos_cellpose_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CellFeature) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CellFeature) ProtoMessage() {}
+
+func (x *CellFeature) ProtoReflect() protoreflect.Message {
+	mi := &file_internal_protos_cellpose_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CellFeature.ProtoReflect.Descriptor instead.
+func (*CellFeature) Descriptor() ([]byte, []int) {
+	return file_internal_protos_cellpose_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CellFeature) GetCellId() int32 {
+	if x != nil {
+		return x.CellId
+	}
+	return 0
+}
+
+func (x *CellFeature) GetArea() float32 {
+	if x != nil {
+		return x.Area
+	}
+	return 0
+}
+
+func (x *CellFeature) GetPerimeter() float32 {
+	if x != nil {
+		return x.Perimeter
+	}
+	return 0
+}
+
+func (x *CellFeature) GetCircularity() float32 {
+	if x != nil {
+		return x.Circularity
+	}
+	return 0
+}
+
+func (x *CellFeature) GetEccentricity() float32 {
+	if x != nil {
+		return x.Eccentricity
+	}
+	return 0
+}
+
+func (x *CellFeature) GetSolidity() float32 {
+	if x != nil {
+		return x.Solidity
+	}
+	return 0
+}
+
+func (x *CellFeature) GetMeanIntensity() float32 {
+	if x != nil {
+		return x.MeanIntensity
+	}
+	return 0
+}
+
+func (x *CellFeature) GetMaxIntensity() float32 {
+	if x != nil {
+		return x.MaxIntensity
+	}
+	return 0
+}
+
+func (x *CellFeature) GetMinIntensity() float32 {
+	if x != nil {
+		return x.MinIntensity
+	}
+	return 0
+}
+
+func (x *CellFeature) GetIntensityStd() float32 {
+	if x != nil {
+		return x.IntensityStd
+	}
+	return 0
+}
+
+func (x *CellFeature) GetTextureContrast() float32 {
+	if x != nil {
+		return x.TextureContrast
+	}
+	return 0
+}
+
+func (x *CellFeature) GetNucleusCytoplasmRatio() float32 {
+	if x != nil {
+		return x.NucleusCytoplasmRatio
+	}
+	return 0
+}
+
+func (x *CellFeature) GetIsPotentiallyMalignant() bool {
+	if x != nil {
+		return x.IsPotentiallyMalignant
+	}
+	return false
+}
+
+type GlobalMetrics struct {
+	state                     protoimpl.MessageState `protogen:"open.v1"`
+	TotalCells                int32                  `protobuf:"varint,1,opt,name=total_cells,json=totalCells,proto3" json:"total_cells,omitempty"`
+	PotentiallyMalignantCells int32                  `protobuf:"varint,2,opt,name=potentially_malignant_cells,json=potentiallyMalignantCells,proto3" json:"potentially_malignant_cells,omitempty"`
+	MalignancyPercentage      float32                `protobuf:"fixed32,3,opt,name=malignancy_percentage,json=malignancyPercentage,proto3" json:"malignancy_percentage,omitempty"`
+	CellDensityPerMm2         float32                `protobuf:"fixed32,4,opt,name=cell_density_per_mm2,json=cellDensityPerMm2,proto3" json:"cell_density_per_mm2,omitempty"`
+	MeanCellSize              float32                `protobuf:"fixed32,5,opt,name=mean_cell_size,json=meanCellSize,proto3" json:"mean_cell_size,omitempty"`
+	CellSizeVariability       float32                `protobuf:"fixed32,6,opt,name=cell_size_variability,json=cellSizeVariability,proto3" json:"cell_size_variability,omitempty"`
+	MeanCellIntensity         float32                `protobuf:"fixed32,7,opt,name=mean_cell_intensity,json=meanCellIntensity,proto3" json:"mean_cell_intensity,omitempty"`
+	IntensityVariability      float32                `protobuf:"fixed32,8,opt,name=intensity_variability,json=intensityVariability,proto3" json:"intensity_variability,omitempty"`
+	ImageQualityScore         float32                `protobuf:"fixed32,9,opt,name=image_quality_score,json=imageQualityScore,proto3" json:"image_quality_score,omitempty"`
+	unknownFields             protoimpl.UnknownFields
+	sizeCache                 protoimpl.SizeCache
+}
+
+func (x *GlobalMetrics) Reset() {
+	*x = GlobalMetrics{}
+	mi := &file_internal_protos_cellpose_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GlobalMetrics) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GlobalMetrics) ProtoMessage() {}
+
+func (x *GlobalMetrics) ProtoReflect() protoreflect.Message {
+	mi := &file_internal_protos_cellpose_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GlobalMetrics.ProtoReflect.Descriptor instead.
+func (*GlobalMetrics) Descriptor() ([]byte, []int) {
+	return file_internal_protos_cellpose_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GlobalMetrics) GetTotalCells() int32 {
+	if x != nil {
+		return x.TotalCells
+	}
+	return 0
+}
+
+func (x *GlobalMetrics) GetPotentiallyMalignantCells() int32 {
+	if x != nil {
+		return x.PotentiallyMalignantCells
+	}
+	return 0
+}
+
+func (x *GlobalMetrics) GetMalignancyPercentage() float32 {
+	if x != nil {
+		return x.MalignancyPercentage
+	}
+	return 0
+}
+
+func (x *GlobalMetrics) GetCellDensityPerMm2() float32 {
+	if x != nil {
+		return x.CellDensityPerMm2
+	}
+	return 0
+}
+
+func (x *GlobalMetrics) GetMeanCellSize() float32 {
+	if x != nil {
+		return x.MeanCellSize
+	}
+	return 0
+}
+
+func (x *GlobalMetrics) GetCellSizeVariability() float32 {
+	if x != nil {
+		return x.CellSizeVariability
+	}
+	return 0
+}
+
+func (x *GlobalMetrics) GetMeanCellIntensity() float32 {
+	if x != nil {
+		return x.MeanCellIntensity
+	}
+	return 0
+}
+
+func (x *GlobalMetrics) GetIntensityVariability() float32 {
+	if x != nil {
+		return x.IntensityVariability
+	}
+	return 0
+}
+
+func (x *GlobalMetrics) GetImageQualityScore() float32 {
+	if x != nil {
+		return x.ImageQualityScore
+	}
+	return 0
+}
+
 type ImageResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Outlines      []*Outline             `protobuf:"bytes,1,rep,name=outlines,proto3" json:"outlines,omitempty"`
@@ -168,13 +416,15 @@ type ImageResponse struct {
 	Diams         []float32              `protobuf:"fixed32,3,rep,packed,name=diams,proto3" json:"diams,omitempty"`
 	Styles        []float32              `protobuf:"fixed32,4,rep,packed,name=styles,proto3" json:"styles,omitempty"`
 	Rows          []float32              `protobuf:"fixed32,5,rep,packed,name=rows,proto3" json:"rows,omitempty"`
+	CellFeatures  []*CellFeature         `protobuf:"bytes,6,rep,name=cell_features,json=cellFeatures,proto3" json:"cell_features,omitempty"`
+	GlobalMetrics *GlobalMetrics         `protobuf:"bytes,7,opt,name=global_metrics,json=globalMetrics,proto3" json:"global_metrics,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ImageResponse) Reset() {
 	*x = ImageResponse{}
-	mi := &file_internal_protos_cellpose_proto_msgTypes[3]
+	mi := &file_internal_protos_cellpose_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -186,7 +436,7 @@ func (x *ImageResponse) String() string {
 func (*ImageResponse) ProtoMessage() {}
 
 func (x *ImageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_protos_cellpose_proto_msgTypes[3]
+	mi := &file_internal_protos_cellpose_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -199,7 +449,7 @@ func (x *ImageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImageResponse.ProtoReflect.Descriptor instead.
 func (*ImageResponse) Descriptor() ([]byte, []int) {
-	return file_internal_protos_cellpose_proto_rawDescGZIP(), []int{3}
+	return file_internal_protos_cellpose_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ImageResponse) GetOutlines() []*Outline {
@@ -237,6 +487,20 @@ func (x *ImageResponse) GetRows() []float32 {
 	return nil
 }
 
+func (x *ImageResponse) GetCellFeatures() []*CellFeature {
+	if x != nil {
+		return x.CellFeatures
+	}
+	return nil
+}
+
+func (x *ImageResponse) GetGlobalMetrics() *GlobalMetrics {
+	if x != nil {
+		return x.GlobalMetrics
+	}
+	return nil
+}
+
 var File_internal_protos_cellpose_proto protoreflect.FileDescriptor
 
 const file_internal_protos_cellpose_proto_rawDesc = "" +
@@ -249,13 +513,41 @@ const file_internal_protos_cellpose_proto_rawDesc = "" +
 	"\x01y\x18\x01 \x01(\x05R\x01y\x12\f\n" +
 	"\x01x\x18\x02 \x01(\x05R\x01x\"2\n" +
 	"\aOutline\x12'\n" +
-	"\x06points\x18\x01 \x03(\v2\x0f.cellpose.PointR\x06points\"\x96\x01\n" +
+	"\x06points\x18\x01 \x03(\v2\x0f.cellpose.PointR\x06points\"\xed\x03\n" +
+	"\vCellFeature\x12\x17\n" +
+	"\acell_id\x18\x01 \x01(\x05R\x06cellId\x12\x12\n" +
+	"\x04area\x18\x02 \x01(\x02R\x04area\x12\x1c\n" +
+	"\tperimeter\x18\x03 \x01(\x02R\tperimeter\x12 \n" +
+	"\vcircularity\x18\x04 \x01(\x02R\vcircularity\x12\"\n" +
+	"\feccentricity\x18\x05 \x01(\x02R\feccentricity\x12\x1a\n" +
+	"\bsolidity\x18\x06 \x01(\x02R\bsolidity\x12%\n" +
+	"\x0emean_intensity\x18\a \x01(\x02R\rmeanIntensity\x12#\n" +
+	"\rmax_intensity\x18\b \x01(\x02R\fmaxIntensity\x12#\n" +
+	"\rmin_intensity\x18\t \x01(\x02R\fminIntensity\x12#\n" +
+	"\rintensity_std\x18\n" +
+	" \x01(\x02R\fintensityStd\x12)\n" +
+	"\x10texture_contrast\x18\v \x01(\x02R\x0ftextureContrast\x126\n" +
+	"\x17nucleus_cytoplasm_ratio\x18\f \x01(\x02R\x15nucleusCytoplasmRatio\x128\n" +
+	"\x18is_potentially_malignant\x18\r \x01(\bR\x16isPotentiallyMalignant\"\xc5\x03\n" +
+	"\rGlobalMetrics\x12\x1f\n" +
+	"\vtotal_cells\x18\x01 \x01(\x05R\n" +
+	"totalCells\x12>\n" +
+	"\x1bpotentially_malignant_cells\x18\x02 \x01(\x05R\x19potentiallyMalignantCells\x123\n" +
+	"\x15malignancy_percentage\x18\x03 \x01(\x02R\x14malignancyPercentage\x12/\n" +
+	"\x14cell_density_per_mm2\x18\x04 \x01(\x02R\x11cellDensityPerMm2\x12$\n" +
+	"\x0emean_cell_size\x18\x05 \x01(\x02R\fmeanCellSize\x122\n" +
+	"\x15cell_size_variability\x18\x06 \x01(\x02R\x13cellSizeVariability\x12.\n" +
+	"\x13mean_cell_intensity\x18\a \x01(\x02R\x11meanCellIntensity\x123\n" +
+	"\x15intensity_variability\x18\b \x01(\x02R\x14intensityVariability\x12.\n" +
+	"\x13image_quality_score\x18\t \x01(\x02R\x11imageQualityScore\"\x92\x02\n" +
 	"\rImageResponse\x12-\n" +
 	"\boutlines\x18\x01 \x03(\v2\x11.cellpose.OutlineR\boutlines\x12\x14\n" +
 	"\x05masks\x18\x02 \x03(\x05R\x05masks\x12\x14\n" +
 	"\x05diams\x18\x03 \x03(\x02R\x05diams\x12\x16\n" +
 	"\x06styles\x18\x04 \x03(\x02R\x06styles\x12\x12\n" +
-	"\x04rows\x18\x05 \x03(\x02R\x04rows2R\n" +
+	"\x04rows\x18\x05 \x03(\x02R\x04rows\x12:\n" +
+	"\rcell_features\x18\x06 \x03(\v2\x15.cellpose.CellFeatureR\fcellFeatures\x12>\n" +
+	"\x0eglobal_metrics\x18\a \x01(\v2\x17.cellpose.GlobalMetricsR\rglobalMetrics2R\n" +
 	"\x0fCellposeService\x12?\n" +
 	"\fProcessImage\x12\x16.cellpose.ImageRequest\x1a\x17.cellpose.ImageResponseB\x03Z\x01/b\x06proto3"
 
@@ -271,23 +563,27 @@ func file_internal_protos_cellpose_proto_rawDescGZIP() []byte {
 	return file_internal_protos_cellpose_proto_rawDescData
 }
 
-var file_internal_protos_cellpose_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_internal_protos_cellpose_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_internal_protos_cellpose_proto_goTypes = []any{
 	(*ImageRequest)(nil),  // 0: cellpose.ImageRequest
 	(*Point)(nil),         // 1: cellpose.Point
 	(*Outline)(nil),       // 2: cellpose.Outline
-	(*ImageResponse)(nil), // 3: cellpose.ImageResponse
+	(*CellFeature)(nil),   // 3: cellpose.CellFeature
+	(*GlobalMetrics)(nil), // 4: cellpose.GlobalMetrics
+	(*ImageResponse)(nil), // 5: cellpose.ImageResponse
 }
 var file_internal_protos_cellpose_proto_depIdxs = []int32{
 	1, // 0: cellpose.Outline.points:type_name -> cellpose.Point
 	2, // 1: cellpose.ImageResponse.outlines:type_name -> cellpose.Outline
-	0, // 2: cellpose.CellposeService.ProcessImage:input_type -> cellpose.ImageRequest
-	3, // 3: cellpose.CellposeService.ProcessImage:output_type -> cellpose.ImageResponse
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 2: cellpose.ImageResponse.cell_features:type_name -> cellpose.CellFeature
+	4, // 3: cellpose.ImageResponse.global_metrics:type_name -> cellpose.GlobalMetrics
+	0, // 4: cellpose.CellposeService.ProcessImage:input_type -> cellpose.ImageRequest
+	5, // 5: cellpose.CellposeService.ProcessImage:output_type -> cellpose.ImageResponse
+	5, // [5:6] is the sub-list for method output_type
+	4, // [4:5] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_internal_protos_cellpose_proto_init() }
@@ -301,7 +597,7 @@ func file_internal_protos_cellpose_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_internal_protos_cellpose_proto_rawDesc), len(file_internal_protos_cellpose_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
