@@ -19,10 +19,40 @@ message Outline {
   repeated Point points = 1;
 }
 
+message CellFeature {
+  int32 cell_id = 1;
+  float area = 2;
+  float perimeter = 3;
+  float circularity = 4;
+  float eccentricity = 5;
+  float solidity = 6;
+  float mean_intensity = 7;
+  float max_intensity = 8;
+  float min_intensity = 9;
+  float intensity_std = 10;
+  float texture_contrast = 11;
+  float nucleus_cytoplasm_ratio = 12;
+  bool is_potentially_malignant = 13;
+}
+
+message GlobalMetrics {
+  int32 total_cells = 1;
+  int32 potentially_malignant_cells = 2;
+  float malignancy_percentage = 3;
+  float cell_density_per_mm2 = 4;
+  float mean_cell_size = 5;
+  float cell_size_variability = 6;
+  float mean_cell_intensity = 7;
+  float intensity_variability = 8;
+  float image_quality_score = 9;
+}
+
 message ImageResponse {
   repeated Outline outlines = 1;
   repeated int32 masks = 2;
   repeated float diams = 3;
   repeated float styles = 4; 
   repeated float rows = 5;
+  repeated CellFeature cell_features = 6;
+  GlobalMetrics global_metrics = 7;
 } 
