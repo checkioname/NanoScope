@@ -21,34 +21,20 @@ class CellposeService(cellpose_pb2_grpc.CellposeServiceServicer):
         # Processar a imagem com Cellpose
         processor = CellposeProcessor()
         masks, outlines, flows, styles, diams = processor.process_image(image, original_width, original_height)
-        
-
-        flattened_mask = masks.flatten().tolist() if masks is not None else [0]
-        flattened_diams = [0] # [float(d) for d in diams] if isinstance(diams, (list, np.ndarray)) else [float(diams)] if diams is not None else [0],
-        flattened_styles = [0] # [float(s) for s in styles.flatten()] if styles is not None else [0],
-        flattened_flows = [0] # [float(f) for f in np.array(flows).flatten()] if flows is not None else [0]
-        
-        outline_mask_bytes = b''
-        if outlines is not None:
-            outline_mask = np.zeros((original_height, original_width), dtype=np.uint8)
-            cv2.drawContours(outline_mask, outlines, -1, 255, 1)
-            
-            _, encoded_mask = cv2.imencode('.png', outline_mask)
-            outline_mask_bytes = encoded_mask.tobytes()
-
-        outlines = get_outlines(outlines)
     
-        print(flattened_diams)
-        print(flattened_styles)
-        print(flattened_flows)
         
-        # Criar a resposta
+        outline_mask = np.zeros((original_height, original_width), dtype=np.uint32)
+        if outlines is not None:
+            temp_mask = np.zeros((original_height, original_width), dtype=np.uint8)
+            cv2.drawContours(temp_mask, outlines, -1, 255, 1)
+            
+            outline_mask = temp_mask.astype(np.int32)
+
+        flattened_mask = outline_mask.flatten().tolist()
+        
+        # Criar a resposta (por enquanto enviar somente a mascara)
         response = cellpose_pb2.ImageResponse(
-            outlines=outlines,
-            masks=outline_mask_bytes,
-            diams=flattened_diams,
-            styles=flattened_styles,
-            rows=flattened_flows
+            masks=flattened_mask
         )
 
         return response
