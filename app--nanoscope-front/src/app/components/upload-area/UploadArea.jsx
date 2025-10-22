@@ -10,7 +10,8 @@ function LoaderOverlay() {
 }
 
 // Componente pra mostrar a imagem processada
-function ImageWithMask({ src }) {
+function ImageWithMask({ src, analysisData }) {
+  const { globalMetrics, cellFeatures, totalCells } = analysisData || {};
   useEffect(() => {
     console.log("valor de src em image with mask", src);
   });
@@ -24,32 +25,23 @@ function ImageWithMask({ src }) {
       />
 
       <div className="h-full w-1/2 flex flex-col items-start p-4">
-        <span className="text-xl font-bold">Disease</span>
+        <span className="text-xl font-bold">Análise celular</span>
         <br />
-        <span className="text-justify">
-          The diagnostic is Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Suspendisse tortor sapien, pulvinar sed quam non, facilisis
-          sollicitudin sapien. Pellentesque habitant morbi tristique senectus et
-          netus et malesuada fames ac turpis egestas. Maecenas tellus nibh,
-          sollicitudin vel justo quis, volutpat tempus quam. Suspendisse augue
-          leo, commodo ut consequat sed, tristique id nisi. Morbi sit amet nibh
-          vulputate, faucibus lacus tincidunt, sagittis nisi. Vestibulum ante
-          ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-          curae; Vestibulum rhoncus, ante eget gravida iaculis, lorem risus
-          sollicitudin eros, porttitor tempor neque lorem eu risus. Donec
-          bibendum at justo id mollis. Nam eu congue mi. Pellentesque nibh
-          ligula, dictum vitae ultricies vel, faucibus vitae purus. Mauris
-          semper ut urna eget ornare. Curabitur ac mauris nisi. Ut nec quam id
-          nisi ornare convallis. Nullam eu eleifend mi. Nam finibus molestie
-          feugiat. Quisque tincidunt, turpis sed feugiat mattis, libero tellus
-          posuere eros, sit amet vulputate nunc lectus ut libero. In hac
-          habitasse platea dictumst. Suspendisse a facilisis odio. Pellentesque
-          accumsan at ex vitae maximus. Maecenas tempus viverra dolor aliquet
-          hendrerit. Vivamus auctor suscipit dui, vel cursus est congue in.
-          Donec sollicitudin sapien justo, id lacinia est tincidunt at. Nam
-          viverra vulputate nulla. Morbi tellus nunc, facilisis ac malesuada
-          eget, dictum vel augue.
-        </span>
+
+        <div className="text-justify space-y-2">
+          <p><strong>Total de células detectadas:</strong> {totalCells || 0 }</p>
+
+          {globalMetrics && (
+            <>
+              <p><strong>Células potencialmente malignas:</strong> {globalMetrics.potentially_malignant_cells}</p>
+              <p><strong>Percentual de malignidade:</strong> {globalMetrics.malignancyPercentage}</p>
+              <p><strong>Densidade celular (por mm2):</strong> {globalMetrics.cell_density_per_mm2}</p>
+              <p><strong>Tamanho médio das células:</strong> {globalMetrics.mean_cell_size1}</p>
+              <p><strong>Qualidade da imagem:</strong> {globalMetrics.image_quality_score}</p>
+            </>
+          )}
+
+        </div>
       </div>
     </div>
   );
@@ -83,11 +75,13 @@ async function processFile(file) {
       console.log(response)
       throw new Error("Erro ao processar imagem");
     }
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
+    const data = await response.json();
 
     return {
-      processedImageUrl: url,
+      processedImageUrl: data.processedImage,
+      cellFeatures: data.cellFeatures,
+      globalMetrics: data.globalMetrics,
+      totalCells: data.totalCells
     };
   } catch (error) {
     console.error("Erro ao processar imagem:", error);
@@ -99,6 +93,7 @@ async function processFile(file) {
 export default function UploadArea() {
   const [status, setStatus] = useState("idle"); // idle | loading | done
   const [imageUrl, setImageUrl] = useState(null);
+  const [analysisData, setAnalysisData] = useState(null);
   const inputFileRef = useRef(null);
 
   async function onFileSelected(file) {
@@ -107,8 +102,9 @@ export default function UploadArea() {
     try {
       setStatus("loading");
       const response = await processFile(file);
-      console.log("Imagem recebida: ", response.processedImageUrl);
-      setImageUrl(response.processedImageUrl);
+      console.log("Imagem recebida: ", response.processedImage);
+      setImageUrl(response.processedImage);
+      setAnalysisData(response);
       console.log(imageUrl);
       setStatus("done");
     } catch (error) {
