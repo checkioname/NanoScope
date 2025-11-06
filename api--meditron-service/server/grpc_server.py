@@ -4,16 +4,39 @@ import sys
 import os
 
 # Adicionar o diretório pai ao path para imports
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
 
-import protos.meditron_pb2 as meditron_pb2
-import protos.meditron_pb2_grpc as meditron_pb2_grpc
-from model.meditron_analyzer import MeditronAnalyzer
+try:
+    import protos.meditron_pb2 as meditron_pb2
+    import protos.meditron_pb2_grpc as meditron_pb2_grpc
+    print("[MEDITRON SERVER] Protobuf importado com sucesso")
+except ImportError as e:
+    print(f"[MEDITRON SERVER] Erro na importação protobuf: {e}")
+    raise
+
+# Tentar diferentes analisadores em ordem de preferência
+try:
+    from model.lightweight_analyzer import LightweightMedicalAnalyzer
+    # Você pode escolher o modelo aqui:
+    # "openai" - OpenAI GPT (requer OPENAI_API_KEY)
+    # "ollama" - Ollama local (requer Ollama instalado)
+    # "huggingface" - Modelo pequeno do HuggingFace
+    # "simple" - Análise baseada em regras
+    
+    MODEL_TYPE = "simple"  # Mude aqui para usar outros modelos
+    AnalyzerClass = lambda: LightweightMedicalAnalyzer(model_type=MODEL_TYPE)
+    print(f"[MEDITRON SERVER] Usando LightweightMedicalAnalyzer com modelo: {MODEL_TYPE}")
+except ImportError as e:
+    print(f"[MEDITRON SERVER] LightweightAnalyzer não disponível ({e}), usando SimpleMedicalAnalyzer")
+    from model.simple_analyzer import SimpleMedicalAnalyzer
+    AnalyzerClass = SimpleMedicalAnalyzer
 
 class MeditronService(meditron_pb2_grpc.MeditronServiceServicer):
     def __init__(self):
         print("[MEDITRON SERVER] Inicializando serviço...")
-        self.analyzer = MeditronAnalyzer()
+        self.analyzer = AnalyzerClass()
         print("[MEDITRON SERVER] Serviço inicializado com sucesso!")
     
     def GenerateAnalysis(self, request, context):
