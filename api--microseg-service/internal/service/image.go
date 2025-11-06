@@ -2,7 +2,6 @@ package service
 
 import (
 	"bytes"
-	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
@@ -22,9 +21,9 @@ func RenderImageWithMask(w http.ResponseWriter, original []byte, masks []int32) 
 	bounds := img.Bounds()
 	width, height := bounds.Dx(), bounds.Dy()
 
-	if len(masks) != width*height {
-		return nil, fmt.Errorf("máscara tem tamanho incompatível com a imagem")
-	}
+	// if len(masks) != width*height {
+	// 	return nil, fmt.Errorf("máscara tem tamanho incompatível com a imagem")
+	// }
 
 	// Criar overlay com a máscara
 	mask := image.NewRGBA(bounds)
