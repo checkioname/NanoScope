@@ -223,7 +223,7 @@ Presença de alterações celulares que podem representar processo reativo, disp
 
 RECOMENDAÇÕES:
 1. Acompanhamento clínico em 3-6 meses
-2. Repetir citologia se persistência dos sintomas
+2. Repetir citologia se per sistência dos sintomas
 3. Correlação com exames complementares
 4. Considerar biópsia se progressão
 

@@ -199,7 +199,16 @@ func (m *MeditronClient) generateRiskAssessment(malignancyPct float32) string {
 
 // TODO: Implementar chamada gRPC real
 func (m *MeditronClient) callMeditronGRPC(cellFeatures []*pb.CellFeature, globalMetrics *pb.GlobalMetrics, imageContext string) (*MeditronAnalysis, error) {
-	conn, err := grpc.NewClient(m.serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	// Configurar opções do cliente para mensagens grandes
+	opts := []grpc.DialOption{
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultCallOptions(
+			grpc.MaxCallRecvMsgSize(50*1024*1024), // 50MB
+			grpc.MaxCallSendMsgSize(50*1024*1024), // 50MB
+		),
+	}
+	
+	conn, err := grpc.NewClient(m.serverAddr, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("erro ao conectar ao Meditron: %w", err)
 	}

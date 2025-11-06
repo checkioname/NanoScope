@@ -172,10 +172,18 @@ def get_outlines(outlines_np):
     return outlines_proto
 
 def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    # Configurar opções do servidor para mensagens grandes
+    options = [
+        ('grpc.max_send_message_length', 50 * 1024 * 1024),  # 50MB
+        ('grpc.max_receive_message_length', 50 * 1024 * 1024),  # 50MB
+        ('grpc.max_message_length', 50 * 1024 * 1024),  # 50MB
+    ]
+    
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10), options=options)
     cellpose_pb2_grpc.add_CellposeServiceServicer_to_server(CellposeService(), server)
     server.add_insecure_port("[::]:50051")
-    print("[SERVER] Servidor gRPC rodando na porta 50051...")
+    print("[CELLPOSE SERVER] Servidor gRPC rodando na porta 50051...")
+    print("[CELLPOSE SERVER] Configurado para mensagens até 50MB")
     server.start()
     server.wait_for_termination()
 

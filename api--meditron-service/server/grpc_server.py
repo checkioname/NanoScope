@@ -110,13 +110,21 @@ class MeditronService(meditron_pb2_grpc.MeditronServiceServicer):
             )
 
 def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    # Configurar opções do servidor para mensagens grandes
+    options = [
+        ('grpc.max_send_message_length', 50 * 1024 * 1024),  # 50MB
+        ('grpc.max_receive_message_length', 50 * 1024 * 1024),  # 50MB
+        ('grpc.max_message_length', 50 * 1024 * 1024),  # 50MB
+    ]
+    
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10), options=options)
     meditron_pb2_grpc.add_MeditronServiceServicer_to_server(MeditronService(), server)
     
     listen_addr = '[::]:50052'  # Porta diferente do Cellpose (50051)
     server.add_insecure_port(listen_addr)
     
     print(f"[MEDITRON SERVER] Iniciando servidor na porta 50052...")
+    print(f"[MEDITRON SERVER] Configurado para mensagens até 50MB")
     server.start()
     print(f"[MEDITRON SERVER] Servidor rodando em {listen_addr}")
     

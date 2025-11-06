@@ -7,7 +7,7 @@ from skimage import measure, morphology
 
 class CellposeProcessor:
     def __init__(self, model_type="cyto"):
-        self.model = models.Cellpose(model_type=model_type)
+        self.model = models.CellposeModel(model_type=model_type)
 
     def process_image(self, image, original_width, original_height):
         try:

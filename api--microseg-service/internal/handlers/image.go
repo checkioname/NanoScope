@@ -29,7 +29,16 @@ func (i *ImageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (i *ImageHandler) GetFullImageData(imageData []byte) (*pb.ImageResponse, error) {
 	grpcServerAddr := "localhost:50051"
 
-	conn, err := grpc.NewClient(grpcServerAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	// Configurar opções do cliente para mensagens grandes
+	opts := []grpc.DialOption{
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultCallOptions(
+			grpc.MaxCallRecvMsgSize(50*1024*1024), // 50MB
+			grpc.MaxCallSendMsgSize(50*1024*1024), // 50MB
+		),
+	}
+
+	conn, err := grpc.NewClient(grpcServerAddr, opts...)
 	if err != nil {
 		slog.Warn("Erro ao conectar ao servidor gRPC:", err)
 		return nil, err
