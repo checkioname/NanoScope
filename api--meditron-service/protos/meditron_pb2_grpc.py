@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import cellpose_pb2 as cellpose__pb2
+from . import meditron_pb2 as meditron__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
@@ -18,14 +18,14 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in cellpose_pb2_grpc.py depends on'
+        + f' but the generated code in meditron_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
 
 
-class CellposeServiceStub(object):
+class MeditronServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -34,43 +34,43 @@ class CellposeServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.ProcessImage = channel.unary_unary(
-                '/cellpose.CellposeService/ProcessImage',
-                request_serializer=cellpose__pb2.ImageRequest.SerializeToString,
-                response_deserializer=cellpose__pb2.ImageResponse.FromString,
+        self.GenerateAnalysis = channel.unary_unary(
+                '/meditron.MeditronService/GenerateAnalysis',
+                request_serializer=meditron__pb2.AnalysisRequest.SerializeToString,
+                response_deserializer=meditron__pb2.AnalysisResponse.FromString,
                 _registered_method=True)
 
 
-class CellposeServiceServicer(object):
+class MeditronServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def ProcessImage(self, request, context):
+    def GenerateAnalysis(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_CellposeServiceServicer_to_server(servicer, server):
+def add_MeditronServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'ProcessImage': grpc.unary_unary_rpc_method_handler(
-                    servicer.ProcessImage,
-                    request_deserializer=cellpose__pb2.ImageRequest.FromString,
-                    response_serializer=cellpose__pb2.ImageResponse.SerializeToString,
+            'GenerateAnalysis': grpc.unary_unary_rpc_method_handler(
+                    servicer.GenerateAnalysis,
+                    request_deserializer=meditron__pb2.AnalysisRequest.FromString,
+                    response_serializer=meditron__pb2.AnalysisResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'cellpose.CellposeService', rpc_method_handlers)
+            'meditron.MeditronService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('cellpose.CellposeService', rpc_method_handlers)
+    server.add_registered_method_handlers('meditron.MeditronService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class CellposeService(object):
+class MeditronService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def ProcessImage(request,
+    def GenerateAnalysis(request,
             target,
             options=(),
             channel_credentials=None,
@@ -83,9 +83,9 @@ class CellposeService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/cellpose.CellposeService/ProcessImage',
-            cellpose__pb2.ImageRequest.SerializeToString,
-            cellpose__pb2.ImageResponse.FromString,
+            '/meditron.MeditronService/GenerateAnalysis',
+            meditron__pb2.AnalysisRequest.SerializeToString,
+            meditron__pb2.AnalysisResponse.FromString,
             options,
             channel_credentials,
             insecure,

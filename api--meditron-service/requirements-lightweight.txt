@@ -1,0 +1,20 @@
+# Dependências básicas (sempre necessárias)
+grpcio==1.71.0
+grpcio-tools==1.71.0
+protobuf==5.29.4
+requests==2.32.5
+
+# Opcionais - escolha uma das opções abaixo:
+
+# OPÇÃO 1: OpenAI (mais simples, requer API key)
+# openai==1.54.0
+
+# OPÇÃO 2: Transformers leve (modelo pequeno local)
+# transformers==4.46.0
+# torch==2.5.0
+
+# OPÇÃO 3: Ollama (requer Ollama instalado separadamente)
+# Nenhuma dependência Python adicional necessária
+
+# OPÇÃO 4: Apenas análise baseada em regras
+# Nenhuma dependência adicional necessária
